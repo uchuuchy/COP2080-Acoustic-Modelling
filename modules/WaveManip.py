@@ -18,3 +18,6 @@ class WaveManip:
         plt.savefig(f"./assets/wave_form.png")
         return f"./assets/wave_form.png"
 
+    def get_time(self):
+        return self.__time.max()
+

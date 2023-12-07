@@ -11,9 +11,10 @@ class WaveManip:
         self.__fs = self.__spf.getframerate()
         self.__time = np.linspace(0, len(self.__signal) / self.__fs, num=len(self.__signal))
 
-    def wavePlot(self):
-        plt.figure(1)
-        plt.title(f"{self.__stream} Wave Form")
+    def wave_plot(self):
+        plt.figure(1).set_size_inches(4.3125, 3.219)
+        plt.title(f"Wave Form")
         plt.plot(self.__time, self.__signal)
-        plt.savefig(f"Wave-Form-{self.__stream}.png")
+        plt.savefig(f"./assets/wave_form.png")
+        return f"./assets/wave_form.png"
 

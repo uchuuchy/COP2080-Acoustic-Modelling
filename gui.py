@@ -79,22 +79,6 @@ image_1 = canvas.create_image(
     image=image_image_1
 )
 
-button_image_1 = PhotoImage(
-    file=relative_to_assets("button_1.png"))
-button_1 = Button(
-    image=button_image_1,
-    borderwidth=0,
-    highlightthickness=0,
-    command=browse_files,
-    relief="flat"
-)
-button_1.place(
-    x=657.0,
-    y=19.0,
-    width=78.0,
-    height=28.0
-)
-
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -115,11 +99,27 @@ entry_1.place(
     height=26.0
 )
 
+button_image_1 = PhotoImage(
+    file=relative_to_assets("button_1.png"))
+button_1 = Button(
+    image=button_image_1,
+    borderwidth=0,
+    highlightthickness=0,
+    command=browse_files,
+    relief="flat"
+)
+button_1.place(
+    x=657.0,
+    y=19.0,
+    width=78.0,
+    height=28.0
+)
+
 image_image_2 = PhotoImage(
     file=relative_to_assets("image_2.png"))
 image_2 = canvas.create_image(
-    221.0,
-    232.0,
+    254.0,
+    246.0,
     image=image_image_2
 )
 
@@ -134,9 +134,85 @@ button_2 = Button(
 )
 button_2.place(
     x=14.0,
-    y=419.0,
+    y=433.0,
     width=78.0,
     height=28.0
+)
+
+button_image_3 = PhotoImage(
+    file=relative_to_assets("button_3.png"))
+button_3 = Button(
+    image=button_image_3,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: print("button_3 clicked"),
+    relief="flat"
+)
+button_3.place(
+    x=116.0,
+    y=433.0,
+    width=78.0,
+    height=28.0
+)
+
+entry_image_2 = PhotoImage(
+    file=relative_to_assets("entry_2.png"))
+entry_bg_2 = canvas.create_image(
+    621.0,
+    134.0,
+    image=entry_image_2
+)
+entry_2 = Text(
+    bd=0,
+    bg="#D9D9D9",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_2.place(
+    x=507.0,
+    y=78.0,
+    width=228.0,
+    height=110.0
+)
+
+entry_image_3 = PhotoImage(
+    file=relative_to_assets("entry_3.png"))
+entry_bg_3 = canvas.create_image(
+    621.0,
+    246.0,
+    image=entry_image_3
+)
+entry_3 = Text(
+    bd=0,
+    bg="#D9D9D9",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_3.place(
+    x=507.0,
+    y=190.0,
+    width=228.0,
+    height=110.0
+)
+
+entry_image_4 = PhotoImage(
+    file=relative_to_assets("entry_4.png"))
+entry_bg_4 = canvas.create_image(
+    621.0,
+    358.0,
+    image=entry_image_4
+)
+entry_4 = Text(
+    bd=0,
+    bg="#D9D9D9",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_4.place(
+    x=507.0,
+    y=302.0,
+    width=228.0,
+    height=110.0
 )
 window.resizable(False, False)
 window.mainloop()

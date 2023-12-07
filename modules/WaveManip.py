@@ -12,7 +12,7 @@ class WaveManip:
         self.__time = np.linspace(0, len(self.__signal) / self.__fs, num=len(self.__signal))
 
     def wave_plot(self):
-        plt.figure().set_size_inches(4.3125, 3.219)
+        plt.figure().set_size_inches(5.0, 3.5)
         plt.title(f"Wave Form")
         plt.plot(self.__time, self.__signal)
         plt.savefig(f"./assets/wave_form.png")

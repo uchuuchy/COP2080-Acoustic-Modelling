@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import wave
 
+
 class WaveManip:
     def __init__(self, _stream: str):
         self.__stream = _stream
@@ -15,8 +16,8 @@ class WaveManip:
         plt.figure().set_size_inches(4.80, 3.36)
         plt.title(f"Wave Form")
         plt.plot(self.__time, self.__signal)
-        plt.savefig(f"./assets/wave_form.png")
-        return f"./assets/wave_form.png"
+        plt.savefig(f"./assets/graphs/wave_form.png", bbox_inches="tight")
+        return f"./assets/graphs/wave_form.png"
 
     def get_time(self):
         return self.__time.max()

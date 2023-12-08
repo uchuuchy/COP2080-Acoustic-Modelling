@@ -12,6 +12,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, filedialog, mes
 # Acoustic Modelling Modules
 from modules.CleanUp import CleanUp
 from modules.WaveManip import WaveManip
+from modules.AcousticModel import AcousticModel
 
 ###
 
@@ -21,35 +22,69 @@ ASSETS_PATH = OUTPUT_PATH / Path(r".\assets\frame0")
 
 
 # Button Commands and Manipulation ######################
+class Controller:
+    def __init__(self):
+        self.__filename = ""
+        self.__graphs = []
+        self.__current_index = 0
+        self.__max = 0
+        self.__stream = ""
 
+    def calc_max(self):
+        self.__max = len(self.__graphs) - 1
 
-def browse_files():
-    try:
-        filename = filedialog.askopenfilename(initialdir=".",
-                                              title="Select a File",
-                                              filetypes=(("WAVE file",
-                                                          "*.wav*"),
-                                                         ("MP3 file",
-                                                          "*.mp3*")))
-        # Change label contents
-        entry_1.configure(text="File Opened: " + filename)
+    def next_graph(self):
+        if self.__current_index < self.__max:
+            self.__current_index += 1
+            canvas.itemconfig(image_2, image_image_2.configure(file=self.__graphs[self.__current_index]))
+        else:
+            self.__current_index = 0
+            canvas.itemconfig(image_2, image_image_2.configure(file=self.__graphs[self.__current_index]))
+
+    def previous_graph(self):
+        if self.__current_index > 0:
+            self.__current_index -= 1
+            canvas.itemconfig(image_2, image_image_2.configure(file=self.__graphs[self.__current_index]))
+        else:
+            self.__current_index = self.__max
+            canvas.itemconfig(image_2, image_image_2.configure(file=self.__graphs[self.__current_index]))
+
+    def __run_model(self):
+        CleanUp(self.__filename).convert()
+        self.__update_label(entry_2, f"Time (Seconds):\n{WaveManip(self.__filename).get_time()}")
+
+        acoustic_model = AcousticModel(self.__filename)
+
+        self.__graphs.append(WaveManip(self.__filename).wave_plot())
+        self.__graphs.append(acoustic_model.get_decibel_over_time())
+        self.__graphs.append(acoustic_model.get_spectrogram())
+        self.__graphs.append(acoustic_model.get_rt60_graph())
+        self.calc_max()
+        canvas.itemconfig(image_2, image_image_2.configure(file=self.__graphs[0]))
+
+    @staticmethod
+    def __update_label(label: Label, stream: str):
+        label.configure(text=stream)
+
+    def browse_files(self):
         try:
-            run_model(filename)
-        except:
-            messagebox.showerror('Python Error', 'No file selected')
-    except Exception as error:
-        messagebox.showerror('Python Error', error)
+            self.__filename = filedialog.askopenfilename(initialdir=".",
+                                                  title="Select a File",
+                                                  filetypes=(("WAVE file",
+                                                              "*.wav*"),
+                                                             ("MP3 file",
+                                                              "*.mp3*")))
+            # Change label contents
+            entry_1.configure(text="File Opened: " + self.__filename)
+            try:
+                self.__run_model()
+            except:
+                messagebox.showerror('Python Error', 'No file selected')
+        except Exception as error:
+            messagebox.showerror('Python Error', error)
 
 
-def run_model(stream: str):
-    CleanUp(stream).convert()
-    update_label(entry_2, f"Time (Seconds):\n{WaveManip(stream).get_time()}")
-    wave_form = WaveManip(stream).wave_plot()
-    canvas.itemconfig(image_2, image_image_2.configure(file=wave_form))
-
-
-def update_label(label: Label, stream: str):
-    label.configure(text=stream)
+gui_controller = Controller()
 
 
 ######################################################
@@ -110,7 +145,7 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=browse_files,
+    command=gui_controller.browse_files,
     relief="flat"
 )
 button_1.place(
@@ -134,7 +169,7 @@ button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=gui_controller.previous_graph,
     relief="flat"
 )
 button_2.place(
@@ -150,7 +185,7 @@ button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=gui_controller.next_graph,
     relief="flat"
 )
 button_3.place(
@@ -187,7 +222,7 @@ entry_bg_3 = canvas.create_image(
     246.0,
     image=entry_image_3
 )
-entry_3 = Text(
+entry_3 = Label(
     bd=0,
     bg="#D9D9D9",
     fg="#000716",

@@ -60,7 +60,9 @@ class Controller:
         self.__graphs.append(WaveManip(self.__filename).wave_plot())
         self.__graphs.append(acoustic_model.get_decibel_over_time())
         self.__graphs.append(acoustic_model.get_spectrogram())
-        self.__graphs.append(acoustic_model.get_rt60_graph())
+        self.__graphs.append(acoustic_model.get_low_rt60_graph())
+        self.__graphs.append(acoustic_model.get_mid_rt60_graph())
+        self.__graphs.append(acoustic_model.get_high_rt60_graph())
         self.__calc_max()
 
         self.__update_label(entry_3, f"RT60 Value (Seconds):\n{acoustic_model.get_rt60_value()}")

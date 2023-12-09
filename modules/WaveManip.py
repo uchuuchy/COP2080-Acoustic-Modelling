@@ -16,9 +16,14 @@ class WaveManip:
         plt.figure().set_size_inches(4.80, 3.36)
         plt.title(f"Wave Form")
         plt.plot(self.__time, self.__signal)
+        plt.plot(self.__time[np.argmax(self.__signal)], self.__signal.max(), "yo")
         plt.savefig(f"./assets/graphs/wave_form.png", bbox_inches="tight")
+        plt.close()
         return f"./assets/graphs/wave_form.png"
 
     def get_time(self):
-        return self.__time.max()
+        return round(self.__time.max(), 2)
+
+    def get_highest_freq(self):
+        return self.__signal.max()
 

@@ -1,30 +1,25 @@
-import ffmpeg
+import pydub
 import wave
+from pathlib import Path
 
 
 class CleanUp:
     def __init__(self, stream: str):
-        self._stream = stream
+        self._stream = str(Path(stream))
 
     def convert(self):
         if str(self._stream.split(".", 1)[1].upper()) == "MP3":
-            (
-                ffmpeg
-                .input(self._stream)
-                .output(self._stream.replace(".mp3", ".wav"), ac=1)
-                .run(overwrite_output=True, quiet=True)
-            )
-            return self._stream.replace(".mp3", ".wav")
+            stream = pydub.AudioSegment.from_mp3(self._stream)
+            stream = stream.set_channels(1)
+            stream.export(str(Path(f'../sound-files/new.wav')), format="wav")
+            return str(Path(f'../sound-files/new.wav'))
         elif str(self._stream.split(".", 1)[1].upper()) == "WAV":
             wr = wave.open(self._stream, 'r')
             if wr.getnchannels() >= 2:
-                (
-                    ffmpeg
-                    .input(self._stream)
-                    .output(f'{self._stream}-Mono', ac=1)
-                    .run(overwrite_output=True, quiet=True)
-                )
                 wr.close()
-                return f'{self._stream}-Mono'
+                stream = pydub.AudioSegment.from_wav(self._stream)
+                stream = stream.set_channels(1)
+                stream.export(f'{self._stream}-new', format="wav")
+                return str(Path(f'{self._stream}-new'))
             else:
                 return self._stream

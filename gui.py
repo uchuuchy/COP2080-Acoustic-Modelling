@@ -50,7 +50,9 @@ class Controller:
             canvas.itemconfig(image_2, image_image_2.configure(file=self.__graphs[self.__current_index]))
 
     def __run_model(self):
-        CleanUp(self.__filename).convert()
+        # self.__filename = CleanUp(self.__filename).convert()
+        # could not get conversions to work
+
         self.__update_label(entry_2, f"Time (Seconds):\n{WaveManip(self.__filename).get_time()}")
 
         acoustic_model = AcousticModel(self.__filename)
@@ -60,6 +62,9 @@ class Controller:
         self.__graphs.append(acoustic_model.get_spectrogram())
         self.__graphs.append(acoustic_model.get_rt60_graph())
         self.calc_max()
+
+        self.__update_label(entry_3, f"RT60 Value (Seconds):\n{acoustic_model.get_rt60_value()}")
+        self.__update_label(entry_4, f"Highest Frequency (Hz):\n{WaveManip(self.__filename).get_highest_freq()}")
         canvas.itemconfig(image_2, image_image_2.configure(file=self.__graphs[0]))
 
     @staticmethod
@@ -68,6 +73,11 @@ class Controller:
 
     def browse_files(self):
         try:
+            self.__filename = ""
+            self.__graphs = []
+            self.__current_index = 0
+            self.__max = 0
+            self.__stream = ""
             self.__filename = filedialog.askopenfilename(initialdir=".",
                                                   title="Select a File",
                                                   filetypes=(("WAVE file",
@@ -98,7 +108,7 @@ window = Tk()
 
 window.geometry("750x500")
 window.configure(bg = "#FFFFFF")
-
+window.title("COP2080 Acoustic Modelling Project")
 
 canvas = Canvas(
     window,
@@ -242,7 +252,7 @@ entry_bg_4 = canvas.create_image(
     358.0,
     image=entry_image_4
 )
-entry_4 = Text(
+entry_4 = Label(
     bd=0,
     bg="#D9D9D9",
     fg="#000716",

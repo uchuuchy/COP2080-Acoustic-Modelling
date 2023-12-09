@@ -15,6 +15,8 @@ class WaveManip:
     def wave_plot(self):
         plt.figure().set_size_inches(4.80, 3.36)
         plt.title(f"Wave Form")
+        plt.xlabel('Time (s)')
+        plt.ylabel("Signal (Hz)")
         plt.plot(self.__time, self.__signal)
         plt.plot(self.__time[np.argmax(self.__signal)], self.__signal.max(), "yo")
         plt.savefig(f"./assets/graphs/wave_form.png", bbox_inches="tight")

@@ -30,7 +30,7 @@ class Controller:
         self.__max = 0
         self.__stream = ""
 
-    def calc_max(self):
+    def __calc_max(self):
         self.__max = len(self.__graphs) - 1
 
     def next_graph(self):
@@ -61,7 +61,7 @@ class Controller:
         self.__graphs.append(acoustic_model.get_decibel_over_time())
         self.__graphs.append(acoustic_model.get_spectrogram())
         self.__graphs.append(acoustic_model.get_rt60_graph())
-        self.calc_max()
+        self.__calc_max()
 
         self.__update_label(entry_3, f"RT60 Value (Seconds):\n{acoustic_model.get_rt60_value()}")
         self.__update_label(entry_4, f"Highest Frequency (Hz):\n{WaveManip(self.__filename).get_highest_freq()}")

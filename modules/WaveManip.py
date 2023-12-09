@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import wave
 
+
 class WaveManip:
     def __init__(self, _stream: str):
         self.__stream = _stream
@@ -11,9 +12,18 @@ class WaveManip:
         self.__fs = self.__spf.getframerate()
         self.__time = np.linspace(0, len(self.__signal) / self.__fs, num=len(self.__signal))
 
-    def wavePlot(self):
-        plt.figure(1)
-        plt.title(f"{self.__stream} Wave Form")
+    def wave_plot(self):
+        plt.figure().set_size_inches(4.80, 3.36)
+        plt.title(f"Wave Form")
         plt.plot(self.__time, self.__signal)
-        plt.savefig(f"Wave-Form-{self.__stream}.png")
+        plt.plot(self.__time[np.argmax(self.__signal)], self.__signal.max(), "yo")
+        plt.savefig(f"./assets/graphs/wave_form.png", bbox_inches="tight")
+        plt.close()
+        return f"./assets/graphs/wave_form.png"
+
+    def get_time(self):
+        return round(self.__time.max(), 2)
+
+    def get_highest_freq(self):
+        return self.__signal.max()
 

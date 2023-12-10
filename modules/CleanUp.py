@@ -2,7 +2,7 @@ import pydub
 import wave
 from pathlib import Path
 
-
+# This code never worked.
 class CleanUp:
     def __init__(self, stream: str):
         self._stream = str(Path(stream))

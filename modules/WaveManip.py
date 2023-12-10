@@ -3,6 +3,9 @@ import numpy as np
 import wave
 
 
+# Modified code from
+# https://stackoverflow.com/questions/18625085/how-to-plot-a-wav-file
+# to be modular and better interact with the gui
 class WaveManip:
     def __init__(self, _stream: str):
         self.__stream = _stream
@@ -12,6 +15,7 @@ class WaveManip:
         self.__fs = self.__spf.getframerate()
         self.__time = np.linspace(0, len(self.__signal) / self.__fs, num=len(self.__signal))
 
+    # Plots the wave form
     def wave_plot(self):
         plt.figure().set_size_inches(4.80, 3.36)
         plt.title(f"Wave Form")
